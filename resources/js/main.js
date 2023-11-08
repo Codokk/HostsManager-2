@@ -1,12 +1,8 @@
 //* Hostsmanager 2.0 using Neutralino *//
 const N = Neutralino;
-const Options = {
-    debug: false,
-    isAdmin: false,
-    Notify_About_Tray: true
-}
-let {debug, isAdmin, Notify_About_Tray} = Options;
+let Notify_About_Tray = true;
 const Links = document.querySelectorAll("li[data-link]")
+
 import { frontend } from "./modules/frontend.js";
 import { backend } from "./modules/backend.js";
 import { wm } from "./modules/window.js";
@@ -17,7 +13,7 @@ async function start() {
     await backend.checkHostsFilePermission(N)
         .catch(async (errMsg)=>{
             await N.os.showMessageBox("Error",errMsg + "\n\n Attempting to fix the hosts file now. You will need to provide your Administrative Password for this.");
-            await backend.fixEtcFile();
+            await backend.fixHostsFilePermission();
         })
     let sites = await backend.readHostsFile(N);
     sites = backend.hostsStringToObj(sites);
@@ -39,7 +35,7 @@ async function start() {
             Notify_About_Tray = false;
         } else {
             Notify_About_Tray = true;
-            fixEtcFile();
+            backend.fixHostsFilePermission();
         }
     } catch {
         Notify_About_Tray = true;
@@ -87,7 +83,7 @@ async function onTrayMenuItemClicked(event) {
                 `Neutralinojs server: v${NL_VERSION} | Neutralinojs client: v${NL_CVERSION}`);
             break;
         case "FIXETC":
-            await fixEtcFile();
+            await backend.fixHostsFilePermission();
             break;
         case "QUIT":
             Neutralino.app.exit(0);
@@ -101,20 +97,6 @@ async function onWindowClose() {
         Notify_About_Tray = false;
         await N.storage.setData("Tray_notify", "false");
     }
-}
-const setTray = async () => {
-    let tray = {
-        icon: "/resources/icons/trayIcon.png",
-        menuItems: [
-            {id: "GUI", text: "Show GUI"},
-            {id: "SEP", text: "-"},
-            {id: "VERSION", text: "Get version"},
-            {id: "FIXETC", text: "Fix /etc/hosts"},
-            {id: "SEP", text: "-"},
-        ]
-    };
-    tray.menuItems.push({id: "QUIT", text: "Quit"});
-    N.os.setTray(tray);
 }
 const formHandler = (e) => {
     e.preventDefault();
@@ -217,98 +199,6 @@ const generateProfiles = async () => {
         table.appendChild(row);
     };
     
-}
-function runCommand(cmd) {
-    return new Promise((res,rej)=>{
-        N.os.execCommand(cmd)
-        .then(data=>{
-            res(data);
-        })
-        .catch(err=>{
-            handleError(err)
-            rej(err);
-        })
-    })
-}
-async function updateHostsFileOLD() {
-    let sites = await getSitesPromise();
-    console.log(sites);
-    // Generate hosts file line by line
-    let sites_file = ""
-    sites.forEach((site)=>{
-        sites_file += site.ip + "\t" + site.fqdn + "\n"
-    })
-    console.log(sites_file);
-    N.filesystem.writeFile("./hosts",sites_file)
-    .then(async (data)=>{
-        console.log(data);
-        if(debug) await N.os.showMessageBox("Success!","Your debug hosts file was created");
-        else {
-            N.os.execCommand("mv ./hosts /etc/hosts")
-            .then((data)=>{
-                console.log("Success");
-                console.log(data);
-            }).catch((err)=>{
-                console.log("Error");
-                console.log(err);
-            })
-        }
-    }).catch((err)=>{
-        console.log(err);
-    })
-}
-async function updateHostsFile() {
-    let sites = await getSitesPromise();
-    // Generate file line by line
-    let sites_file = ""
-    sites.forEach((site)=>{
-        sites_file += site.ip + "\t" + site.fqdn + "\n"
-    })
-    console.log(sites_file);
-    N.filesystem.writeFile("./hosts",sites_file)
-    .then(async (data)=>{
-        console.log(data);
-        await N.os.showMessageBox("Success!","Your debug hosts file was created");
-        N.os.execCommand(`echo "${sites_file}" > /etc/hosts`)
-        .then((data)=>{
-            console.log("Success");
-            console.log(data);
-        }).catch((err)=>{
-            console.log("Error");
-            console.log(err);
-        }).finally(()=>{
-            N.os.showMessageBox("Success!","Your hosts file was updated");
-        })
-    }).catch((err)=>{
-        cconsole.log(err);
-    })
-
-}
-
-function generateInitialSites() {
-    return new Promise((res, rej)=>{
-        N.filesystem.readFile("/etc/hosts")
-        .then((data)=>{
-            console.log(data);
-            let rows = data.split("\n");
-            let sites = [];
-            rows.forEach(row => {
-                if(row[0] == "#") return;
-                let site = row.split("\t");
-                if(site.length < 2) return;
-                sites.push({
-                    ip: site[0],
-                    fqdn: site[1],
-                    nickname: site[2]? site[2] : site[1]
-                })
-            })
-            res(sites);
-        })
-        .catch((data)=>{
-            console.log(data);
-            rej(data);
-        })
-    })    
 }
 
 start();
