@@ -2,7 +2,7 @@
 /bin
 /dist
 /prod
-
+prod/*
 # Neutralinojs client (minified)
 neutralino.js
 
@@ -10,3 +10,5 @@ neutralino.js
 .storage
 *.log
 .tmp
+.DS_Store
+
