@@ -1,15 +1,18 @@
-# neutralinojs-minimal
+# HostsManager V2
 
-The default template for a Neutralinojs app. It's possible to use your favorite frontend framework by using [these steps](https://neutralino.js.org/docs/getting-started/using-frontend-libraries).
+HostsManager V2 is a simple program designed to manage your etc/hosts file using a gui
+## Installation
 
-## Contributors
+Download the latest release from the [Releases](https://github.com/cmkrist/HostsManager-2/releases) page.
+## Development Setup
 
-[![Contributors](https://contrib.rocks/image?repo=neutralinojs/neutralinojs-minimal)](https://github.com/neutralinojs/neutralinojs-minimal/graphs/contributors)
+Development of this project has been setup for WSL, Mac and Linux.
+Downoad the source code, you will need to install NodeJS/NPM and install the Neutralino CLI
+```npm install -g @neutralinojs/neu```
 
-## License
+After Installation, you can run the program from the root directory with `neu run`
 
-[MIT](LICENSE)
+For distribution, run build.sh and you'll find all your distribution files in the prod directory
+## Questions?
 
-## Icon credits
-
-- `trayIcon.png` - Made by [Freepik](https://www.freepik.com) and downloaded from [Flaticon](https://www.flaticon.com)
+Reach out to cmkrist on the University of Michigan Slack Network
