@@ -10,6 +10,14 @@ class backendManager {
         })
     }
     writeHostsFile(N, content) {
+        return new Promise((resolve, reject)=> {
+            console.log(content);
+            N.filesystem.writeFile("/etc/hosts", content)
+            .then((data)=>{
+                resolve(data);
+            })
+            .catch((err)=>reject(err));
+        })
     }
     // Hosts File Permissions
     checkHostsFilePermission(N) {
