@@ -19,26 +19,20 @@ async function start() {
             await N.os.showMessageBox("Error",errMsg + "\n\n Attempting to fix the hosts file now. You will need to provide your Administrative Password for this.");
             await backend.fixEtcFile();
         })
+    let sites = await backend.readHostsFile(N);
+    sites = backend.hostsStringToObj(sites);
+    await setSitesPromise(sites).catch((err)=>console.error(err));
     // Backend Setup (async);
     backend.setTray(N);
+    generateProfiles();
     // Frontend Setup
     frontend.setLinks();
-    // Show Screen
-    let sites = await backend.readHostsFile(N);
-    sites = backend.hostsStringToArray(sites);
-    await N.os.showMessageBox("Success!",JSON.stringify(sites));
-    console.log(sites);
-    await setSitesPromise(sites).catch((err)=>console.error(err));
-    console.log("Sites Saved");
+    frontend.changePage('profiles-list');
     // Set Page Triggers
     document.getElementById("profileForm").addEventListener("submit", formHandler);
     // Set Events
     N.events.on("trayMenuItemClicked", onTrayMenuItemClicked);
     N.events.on("windowClose", onWindowClose);
-    // Set Page
-    frontend.changePage('profiles-list');
-    // Generate Sites
-    generateProfiles();
     // Set running alert
     try {
         if(await N.storage.getData("Tray_notify") == "false") {
@@ -182,7 +176,7 @@ const generateProfiles = async () => {
         table.removeChild(table.firstChild);
     }
     console.log(sites);
-    for(i in sites) {
+    for (let i in sites) {
         console.log(sites[i])
         // Push each site to the table
         let row = document.createElement("tr");
@@ -221,7 +215,7 @@ const generateProfiles = async () => {
         row.appendChild(name);
         row.appendChild(actions);
         table.appendChild(row);
-    }
+    };
     
 }
 function runCommand(cmd) {

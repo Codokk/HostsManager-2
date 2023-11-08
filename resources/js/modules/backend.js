@@ -57,14 +57,30 @@ class backendManager {
         })
     }
     // General Utility Functions
-    hostsStringToArray(hostsString) {
-        let res = new Array();
+    hostsStringToObj(hostsString) {
+        let outputArr = new Array();
+        let resArr = new Array();
+
         hostsString.split('\n').forEach((line)=>{
             if(line.includes('#')) return;
             if(line == '') return;
-            res.push(line.split("\t"));
+            outputArr.push(line.split("\t"));
         });
-        return res;
+
+        outputArr.forEach((line)=>{
+            let res = {}
+            if(line.length == 2) {
+                res.fqdn = line[1];
+                res.ip = line[0];
+                res.nickname = "";
+            } else if(line.length == 3) {
+                res.fqdn = line[2];
+                res.ip = line[0];
+                res.nickname = line[1];
+            }
+            resArr.push(res);
+        });
+        return resArr;
     }
     // System Utility Functions
     setTray(N) {

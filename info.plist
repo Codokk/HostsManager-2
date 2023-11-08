@@ -9,7 +9,7 @@
     <key>CFBundleGetInfoString</key>
     <string>HostsManager</string>
     <key>CFBundleIconFile</key>
-    <string>icon.png</string>
+    <string>icon.icns</string>
     <key>CFBundleIdentifier</key>
     <string>edu.umich.its.hostsmanager</string>
     <key>CFBundleName</key>

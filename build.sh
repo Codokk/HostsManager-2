@@ -16,7 +16,7 @@ for filename in ./dist/hostsmanager/*; do
         cp "dist/hostsmanager/$filename" "prod/$filename/HostsManager.app/Contents/MacOS/main"
         cp "./bootstrapper" "prod/$filename/HostsManager.app/Contents/MacOS/bootstrap"
         cp dist/hostsmanager/resources.neu "prod/$filename/HostsManager.app/Contents/Resources/resources.neu"
-        cp resources/icons/icon.png "prod/$filename/HostsManager.app/Contents/Resources/icon.png"
+        cp resources/icons/icon.icns "prod/$filename/HostsManager.app/Contents/Resources/icon.icns"
     elif [[ $filename == *"win"* ]]; then
         cp "dist/hostsmanager/$filename.exe" "prod/$filename/hostsmanager.exe"
         cp dist/hostsmanager/resources.neu "prod/$filename/resources.neu"
