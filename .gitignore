@@ -3,6 +3,7 @@
 /dist
 /prod
 prod/*
+prod/*/*
 # Neutralinojs client (minified)
 neutralino.js
 
