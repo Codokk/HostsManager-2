@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html data-theme="dark">
+
+<head>
+    <title>HostMaster App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="shortcut icon" href="./icons/appIcon.png">
+
+</head>
+
+<body>
+    <div id="MainContainer" class="container">
+        <div>
+            <h1>Etc Hosts Manager App</h1>
+        </div>
+        <main>
+            <nav id="NavBar">
+                <ul>
+                    <li class="active" data-link="profiles-list">Profiles</li>
+                    <li data-link="add-profile">Add Profile</li>
+                </ul>
+            </nav>
+            <article class="page hidden" id="add-profile">
+                <form id="profileForm" onsubmit="formHandler">
+                    <label for="fqdn">FQDN:</label>
+                    <input type="text" id="fqdn" name="fqdn" required><br>
+
+                    <label for="ip">IP:</label>
+                    <input type="text" id="ip" name="ip" required><br>
+
+                    <label for="nickname">Nickname:</label>
+                    <input type="text" id="nickname" name="nickname"><br>
+
+                    <input type="checkbox" id="updateExisting" name="updateExisting" disabled>
+
+                    <input type="submit" value="Add Profile">
+                </form>
+            </article>
+            <article class="page hidden" id="profiles-list">
+                <table id="profileTable">
+                    <thead>
+                        <tr>
+                            <th>FQDN</th>
+                            <th>IP</th>
+                            <th>Nickname</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Keep this for row generation -->
+                    </tbody>
+                </table>
+                <button id="applyProfilesButton" class="secondary outline">Apply Profiles</button>
+            </article>
+        </main>
+    </div>
+    <script src="./js/neutralino.js"></script>
+    <script src="./js/main.js" type="module"></script>
+</body>
+
+</html>

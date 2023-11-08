@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Step 1: Run 'neu build'
+neu build
+
+# Step 2: Create the 'prod' directory if it doesn't exist
+mkdir -p prod
+
+# Step 3: Make sure 'prod' is empty
+rm -rf prod/*
+
+# Step 4: Create 'HostsManager.app' directory
+mkdir -p prod/HostsManager.app
+
+# Step 5: Create 'Content' directory
+mkdir -p prod/HostsManager.app/Contents
+
+# Step 6: Create 'Resources' and 'MacOS' directories
+mkdir -p prod/HostsManager.app/Contents/Resources
+mkdir -p prod/HostsManager.app/Contents/MacOS
+
+# Step 7: Copy 'info.plist'
+cp info.plist prod/HostsManager.app/Contents
+
+# Step 8: Copy 'hostsmanager-mac_arm64'
+cp dist/hostsmanager/hostsmanager-mac_arm64 prod/HostsManager.app/Contents/MacOS/main
+
+# Step 9: Copy 'resources.neu'
+cp dist/hostsmanager/resources.neu prod/HostsManager.app/Contents/MacOS
+
+# Step 10: Copy 'icon.png'
+cp resources/icons/icon.png prod/HostsManager.app/Contents/Resources/icon.png
+
+echo "Build and copy completed."
