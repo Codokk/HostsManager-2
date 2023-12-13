@@ -6,8 +6,10 @@ const Links = document.querySelectorAll("li[data-link]")
 import { frontend } from "./modules/frontend.js";
 import { backend } from "./modules/backend.js";
 import { wm } from "./modules/window.js";
-
 async function start() {
+    N.init()
+}
+async function start1() {
     N.init();
     // Backend Setup (sync)
     await backend.checkHostsFilePermission(N)

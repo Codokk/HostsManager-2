@@ -1,8 +1,11 @@
 class backendManager {
     // Hosts File Management
+    constructor() {
+      this.hfl = (NL_OS == "Windows" ? "C:\\Windows\\System32\\drivers\\etc\\hosts" : "/etc/hosts")
+    }
     readHostsFile(N) {
         return new Promise((resolve, reject)=> {
-            N.filesystem.readFile("/etc/hosts")
+            N.filesystem.readFile(this.hfl)
             .then((data)=>{
                 resolve(data);
             })
@@ -12,7 +15,7 @@ class backendManager {
     writeHostsFile(N, content) {
         return new Promise((resolve, reject)=> {
             console.log(content);
-            N.filesystem.writeFile("/etc/hosts", content)
+            N.filesystem.writeFile(this.hfl, content)
             .then((data)=>{
                 resolve(data);
             })
@@ -23,7 +26,7 @@ class backendManager {
     checkHostsFilePermission(N) {
         return new Promise( async (resolve,reject)=>{
             const user = await N.os.getEnv("USER");
-            N.os.execCommand("stat /etc/hosts")
+            N.os.execCommand(`stat ${this.hfl}`)
             .then(async (res)=>{
                 if(res.stdErr) {
                     reject(res.stdErr);
@@ -55,6 +58,7 @@ class backendManager {
                     
                     -- Close the Terminal window
                     close window 1
+                    quit
                 end tell'
                 `).then((data)=>{
                     console.log(data);
@@ -92,18 +96,7 @@ class backendManager {
     }
     // System Utility Functions
     setTray(N) {
-        let tray = {
-            icon: "/resources/icons/trayIcon.png",
-            menuItems: [
-                {id: "GUI", text: "Show GUI"},
-                {id: "SEP", text: "-"},
-                {id: "VERSION", text: "Get version"},
-                {id: "FIXETC", text: "Fix /etc/hosts"},
-                {id: "SEP", text: "-"},
-            ]
-        };
-        tray.menuItems.push({id: "QUIT", text: "Quit"});
-        N.os.setTray(tray);
+        
     }
 }
 export const backend = new backendManager();

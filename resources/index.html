@@ -1,62 +1,70 @@
 <!DOCTYPE html>
 <html data-theme="dark">
-
-<head>
+  <head>
     <title>HostMaster App</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <link rel="stylesheet" href="./styles.css">
-    <link rel="shortcut icon" href="./icons/appIcon.png">
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/slider.css">
+    <link rel="shortcut icon" href="./icons/appIcon.png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+  </head>
 
-</head>
-
-<body>
-    <div id="MainContainer" class="container">
-        <div>
-            <h1>Etc Hosts Manager App</h1>
+  <body>
+    <div id="OptionsBar" class="hidden">
+      <div id="AddBtn" class="button">
+        <span class="material-symbols-outlined"> add </span>
+        New Entry
+      </div>
+      <div id="SaveBtn" class="button accent">
+        Save All
+      </div>
+      <div id="IconContainer">
+        <span class="material-symbols-outlined" id="OpenHostsFileBtn"> file_open </span>
+        <span class="material-symbols-outlined" id="OpenSettingsBtn"> settings </span>
+      </div>
+    </div>
+    <main id="Main" class="hidden">
+      <div class="row">
+        <div class="ip">127.0.0.1</div>
+        <div class="alias">localhost</div>
+        <div class="options">
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider round"></span>
+          </label>
         </div>
-        <main>
-            <nav id="NavBar">
-                <ul>
-                    <li class="active" data-link="profiles-list">Profiles</li>
-                    <li data-link="add-profile">Add Profile</li>
-                </ul>
-            </nav>
-            <article class="page hidden" id="add-profile">
-                <form id="profileForm">
-                    <label for="fqdn">FQDN:</label>
-                    <input type="text" id="fqdn" name="fqdn" required><br>
-
-                    <label for="ip">IP:</label>
-                    <input type="text" id="ip" name="ip" required><br>
-
-                    <label for="nickname">Nickname:</label>
-                    <input type="text" id="nickname" name="nickname"><br>
-
-                    <input type="checkbox" id="updateExisting" name="updateExisting" disabled>
-
-                    <input type="submit" value="Add Profile">
-                </form>
-            </article>
-            <article class="page hidden" id="profiles-list">
-                <table id="profileTable">
-                    <thead>
-                        <tr>
-                            <th>FQDN</th>
-                            <th>IP</th>
-                            <th>Nickname</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Keep this for row generation -->
-                    </tbody>
-                </table>
-                <button id="applyProfilesButton" class="secondary outline">Apply Profiles</button>
-            </article>
-        </main>
+      </div>
+    </main>
+    <div id="OverlayContainer">
+        <div class="NewEntryForm hidden">
+            <h2>Add New Hosts File Entry</h2>
+            <div class="inputContainer">
+                <label for="ip">IP Address</label>
+                <input type="text" name="ip" id="ipInput">
+            </div>
+            <div class="inputContainer">
+                <label for="fqdn">Hosts</label>
+                <input type="text" name="fqdn" id="fqdnInput">
+            </div>
+            <div class="inputContainer">
+                <label for="address">Active</label>
+                <label class="switch" style="margin-top: .5rem">
+                    <input type="checkbox" id="active" checked />
+                    <span class="slider round"></span>
+                  </label>
+            </div>
+            <div class="BottomOptions">
+                <div id="AddEntryBtn">Add</div>
+                <div id="CancelEntryBtn">Cancel</div>
+            </div>
+        </div>
+        <div class="loading">
+            <div class="spinner"></div>
+        </div>
     </div>
     <script src="./js/neutralino.js"></script>
-    <script src="./js/main.js" type="module"></script>
-</body>
-
+    <script src="./js/three.js" type="module" defer></script>
+  </body>
 </html>
